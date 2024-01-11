@@ -3,6 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Games } from 'src/entity/Games.entity';
 import { FindManyOptions, FindOneOptions, FindOptionsWhere, Repository } from 'typeorm';
 
+interface ReturnError {
+  message: string;
+  status: number;
+  error: boolean;
+}
 
 @Injectable()
 export class GameService {
@@ -22,7 +27,7 @@ export class GameService {
         return {
           message: `Esta/e ${Object.keys(data)[0]} no existe`,
           status: HttpStatus.NOT_FOUND,
-          error: null,
+          error: false,
           game
         }
       }
@@ -38,54 +43,24 @@ export class GameService {
 
   }
 
-  async getGameById(id: number): Promise<Games[] | {
-    message: string;
-    status: number;
-    error: null | boolean;
-  }> {
-
-    try {
-      const game = await this.findOneBy({ id })
-      return game
-    } catch (e) {
-      console.log(e)
-    }
+  async getGameById(id: number): Promise<Games[] | ReturnError> {
+    const game = await this.findOneBy({ id })
+    return game
 
   }
 
-  async getGameByConsole(console: string): Promise<Games[] | {
-    message: string;
-    status: number;
-    error: null | boolean;
-  }> {
+  async getGameByConsole(console: string): Promise<Games[] | ReturnError> {
     const game = await this.findOneBy({ consoleSmallName: console })
     return game
   }
 
-  async getGameByGeneration(generation: number): Promise<Games[] | {
-    message: string;
-    status: number;
-    error: null | boolean;
-  }> {
+  async getGameByGeneration(generation: number): Promise<Games[] | ReturnError> {
     const game = await this.findOneBy({ generation })
     return game
   }
 
   async getAllGames(): Promise<Games[]> {
     const opts: FindManyOptions<Games> = {}
-
-    return await this.GamesRepository.find(opts)
-  }
-
-  async q(q: { limit: number | undefined, console: string | undefined }) {
-    const { console, limit } = q
-    const consoleToUpperCase = console?.toUpperCase()
-
-    const opts: FindManyOptions<Games> = {
-      take: limit || 50,
-      where: consoleToUpperCase ? { consoleSmallName: consoleToUpperCase } : {},
-      cache: true
-    }
 
     return await this.GamesRepository.find(opts)
   }
