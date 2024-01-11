@@ -5,7 +5,7 @@ import { Games } from "./entity/Games.entity";
 
 const opts: TypeOrmModuleOptions = {
 	type: "sqlite",
-	database: "./db.sqlite",
+	database: "./games.db",
 	entities: [Games],
 	synchronize: !!process.env.DEV, // Desactivar en produción
 };
@@ -13,4 +13,4 @@ const opts: TypeOrmModuleOptions = {
 @Module({
 	imports: [TypeOrmModule.forRoot(opts), GameModule],
 })
-export class AppModule {}
+export class AppModule { }
