@@ -7,13 +7,13 @@ export class GameController {
   constructor(private readonly appService: GameService) { }
 
   // Obtener todos loe juegos
-  @Get()
+  @Get() // Ejemplo: games/
   async getAllGames(): Promise<Games[]> {
     return await this.appService.getAllGames();
   }
 
   // Obtener los juegos mediante su id
-  @Get("id/:id") // Ejemplo: game/id/1
+  @Get("id/:id") // Ejemplo: games/id/1
   async getGameById(
     @Param() param: { id: string }
   ) {
@@ -22,7 +22,7 @@ export class GameController {
   }
 
   // Obtener los juegos mediante su consola
-  @Get("console/:consoleVideoGame") // Ejemplo: game/console/ps1
+  @Get("console/:consoleVideoGame") // Ejemplo: games/console/ps1
   async getGameByConsole(
     @Param() param: { consoleVideoGame: string }
   ) {
@@ -31,13 +31,11 @@ export class GameController {
   }
 
   // Obtener los juegos mediante su generación
-  @Get("genration/:generation") // Ejemplo -> generation/6
+  @Get("genration/:generation") // Ejemplo -> games/generation/6
   async getGameByGeneration(
     @Param() param: { generation: string }
   ) {
     const generationToNumber = parseInt(param.generation)
     return await this.appService.getGameByGeneration(generationToNumber)
   }
-
-
 }
