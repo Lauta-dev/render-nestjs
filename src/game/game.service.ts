@@ -13,4 +13,12 @@ export class GameService {
   async getHello(): Promise<Games[]> {
     return await this.GamesRepository.find()
   }
+
+  async insertData(title: string) {
+    const game = this.GamesRepository.create({
+      title
+    })
+    return await this.GamesRepository.insert(game)
+  }
+
 }
