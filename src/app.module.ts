@@ -13,4 +13,4 @@ const opts: TypeOrmModuleOptions = {
 @Module({
 	imports: [TypeOrmModule.forRoot(opts), GameModule],
 })
-export class AppModule { }
+export class AppModule {}
