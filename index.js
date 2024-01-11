@@ -6,7 +6,7 @@ async function dom() {
 	const data = await f.json();
 	cantidad.innerHTML = `Cantidad de elementos: ${data.length}`;
 
-	data.forEach((data) => {
+	data.map((data) => {
 		const {
 			console,
 			cover,
