@@ -22,8 +22,11 @@ export class Games {
 	genre: string;
 
 	// Columna para la consola del juego
-	@Column({ type: "text" })
-	console: string;
+	@Column({ type: "text", name: "console_public_name" })
+	consolePublicName: string;
+
+	@Column({ type: "text", name: "console_small_name" })
+	consoleSmallName: string;
 
 	// Columna para la generación del juego
 	@Column({ type: "integer" })
