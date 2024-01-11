@@ -89,15 +89,4 @@ export class GameService {
 
     return await this.GamesRepository.find(opts)
   }
-
-  /*
-  async insertData(title: string) {
-    const game = this.GamesRepository.create({
-      title
-    })
-    return await this.GamesRepository.insert(game)
-  }
-
-  */
-
 }
