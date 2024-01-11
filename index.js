@@ -2,7 +2,7 @@ const box = document.getElementById("data");
 const cantidad = document.getElementById("cantidad");
 
 async function dom() {
-	const f = await fetch("http://localhost:3000/game");
+	const f = await fetch("https://nest-etid.onrender.com/game");
 	const data = await f.json();
 	cantidad.innerHTML = `Cantidad de elementos: ${data.length}`;
 
