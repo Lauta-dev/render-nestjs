@@ -2,13 +2,13 @@ const box = document.getElementById("data");
 const cantidad = document.getElementById("cantidad");
 
 async function dom() {
-	const f = await fetch("https://nest-etid.onrender.com/game");
+	const f = await fetch("http://localhost:3000/games/all");
 	const data = await f.json();
 	cantidad.innerHTML = `Cantidad de elementos: ${data.length}`;
 
 	data.map((data) => {
 		const {
-			console,
+			consolePublicName,
 			cover,
 			descripcion,
 			generation,
@@ -19,7 +19,7 @@ async function dom() {
 		} = data;
 
 		const viewData = `
-      <h2>${title} - ${release_year} - ${console}</h2>
+      <h2>${title} - ${release_year} - ${consolePublicName}</h2>
       <hr>
       <div style="display: flex; gap: 1rem; justify-content: center;">
         <p>${descripcion}</p>
