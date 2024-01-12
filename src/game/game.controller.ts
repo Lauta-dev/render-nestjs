@@ -1,15 +1,33 @@
 import { Controller, Get, Param, Query } from "@nestjs/common";
-import { Games } from "src/entity/Games.entity";
-import { GameService } from "./game.service";
+import { GameService, ReturnError } from "./game.service";
+import { FindOptionsOrderValue } from "typeorm";
 
 @Controller("games")
 export class GameController {
   constructor(private readonly appService: GameService) { }
-
   // Obtener todos loe juegos
-  @Get() // Ejemplo: games/
-  async getAllGames(): Promise<Games[]> {
-    return await this.appService.getAllGames();
+  @Get("") // Ejemplo: games/
+  async getAllGames(
+    @Query() q: {
+      limit?: string,
+      page?: string,
+
+      sort?: FindOptionsOrderValue,
+      id?: FindOptionsOrderValue,
+      title?: FindOptionsOrderValue,
+      year?: FindOptionsOrderValue,
+      genration?: FindOptionsOrderValue
+    }
+  ) {
+    const limit = Number(q.limit)
+    const page = Number(q.page)
+    const sort = q.sort ? q.sort : "ASC"
+
+    return await this.appService.getAllGames({
+      limit, page, filters: {
+
+      }
+    });
   }
 
   // Obtener los juegos mediante su id

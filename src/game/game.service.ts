@@ -1,9 +1,9 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Games } from 'src/entity/Games.entity';
-import { FindManyOptions, FindOneOptions, FindOptionsWhere, Repository } from 'typeorm';
+import { FindManyOptions, FindOneOptions, FindOptionsOrder, FindOptionsOrderValue, FindOptionsWhere, Repository } from 'typeorm';
 
-interface ReturnError {
+export interface ReturnError {
   message: string;
   status: number;
   error: boolean;
@@ -59,8 +59,52 @@ export class GameService {
     return game
   }
 
-  async getAllGames(): Promise<Games[]> {
-    const opts: FindManyOptions<Games> = {}
+  async getAllGames({
+    limit = 10,
+    page = 0,
+    sort = "ASC",
+    filters = {}
+  }: {
+    limit?: number,
+    page?: number,
+    sort?: FindOptionsOrderValue,
+    filters?: {
+      id?: FindOptionsOrderValue,
+      year?: FindOptionsOrderValue,
+      generation?: FindOptionsOrderValue
+    }
+  }): Promise<Games[] | ReturnError> {
+    const l = Number.isNaN(limit) ? 10 : limit;
+    const checkPage = Number.isNaN(page) ? 0 : page;
+
+    const order: FindOptionsOrder<Games> = {
+      ...filters
+    }
+
+
+    /* TODO: Agregar una forma de validar diferentes campos
+    if (l) {
+      return {
+        error: true,
+        status: HttpStatus.BAD_REQUEST,
+        message: "No se puede completar la respuesta por que el 'limit' no esta definido correctamente"
+      }
+    }
+
+    if (checkPage) {
+      return {
+        error: true,
+        status: HttpStatus.BAD_REQUEST,
+        message: "No se puede completar la respuesta por que el 'page' no esta definido correctamente"
+      }
+    }
+*/
+    const opts: FindManyOptions<Games> = {
+      take: l, // limit
+      skip: checkPage,
+      order,
+      cache: true
+    }
 
     return await this.GamesRepository.find(opts)
   }
