@@ -12,7 +12,7 @@ export interface ReturnError {
 type f = Games[] | ReturnError
 
 @Injectable()
-export class GameService {
+export class AppService {
   constructor(
     @InjectRepository(Games)
     private GamesRepository: Repository<Games>

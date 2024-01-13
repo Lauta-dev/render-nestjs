@@ -1,15 +1,21 @@
 import { Controller, Get, HttpStatus, Param, Query, Res, UseGuards } from "@nestjs/common";
-import { GameService } from "./game.service";
 import { FindOptionsOrderValue } from "typeorm";
-
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { Response } from "express";
-@Controller("games")
-export class GameController {
-  constructor(private readonly appService: GameService) { }
-  // Obtener todos loe juegos
+import { AppService } from "./app.service";
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) { }
+
+
+  /*
+   * Recuperar todos los juegos
+   * /
+   *
+   * */
   @UseGuards(ThrottlerGuard)
-  @Get("") // Ejemplo: games/
+  @Get("")
   async getAllGames(
     @Query() q: {
       limit?: string,
@@ -33,19 +39,35 @@ export class GameController {
     });
   }
 
+
+  /*
+   * Recuperar todas las consolas de juegos
+   * /consoles
+   *
+   * */
   @Get("consoles")
   async getAllConsoles() {
     return await this.appService.getAllConsoles()
   }
 
+
+  /*
+   * Recuperar todass las generaciones de juegos
+   * /generations
+   *
+   * */
   @Get("generations")
   async getAllGenerations() {
     return await this.appService.getAllGenerations()
   }
 
-  // Obtener los juegos mediante su id
+  /*
+   *  Obtener los juegos mediante su id
+   * /id/1
+   *
+   * */
   @UseGuards(ThrottlerGuard)
-  @Get("id/:id") // Ejemplo: games/id/1
+  @Get("id/:id")
   async getGameById(
     @Param() param: { id: string },
     @Res() res: Response
@@ -66,7 +88,12 @@ export class GameController {
 
   }
 
-  // Obtener los juegos mediante su consola
+
+  /*
+   * Obtener los juegos mediante su consola
+   * /console/ps1
+   *
+   * */
   @UseGuards(ThrottlerGuard)
   @Get("console/:consoleVideoGame") // Ejemplo: games/console/ps1
   async getGameByConsole(
@@ -76,7 +103,12 @@ export class GameController {
     return await this.appService.getGameByConsole(consoleVideoGame)
   }
 
-  // Obtener los juegos mediante su generación
+
+  /*
+   * Obtener los juegos mediante su generación
+   * /generation/1
+   *
+   * */
   @UseGuards(ThrottlerGuard)
   @Get("generation/:generation") // Ejemplo -> games/generation/6
   async getGameByGeneration(
