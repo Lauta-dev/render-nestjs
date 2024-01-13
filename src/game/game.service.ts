@@ -9,6 +9,8 @@ export interface ReturnError {
   error: boolean;
 }
 
+type f = Games[] | ReturnError
+
 @Injectable()
 export class GameService {
   constructor(
@@ -16,7 +18,7 @@ export class GameService {
     private GamesRepository: Repository<Games>
   ) { }
 
-  private async findOneBy({ ...data }: FindOptionsWhere<Games>) {
+  private async findBy({ ...data }: FindOptionsWhere<Games>): Promise<f> {
     const opts: FindOneOptions<Games> = {
       where: { ...data }
     }
@@ -28,8 +30,7 @@ export class GameService {
           message: `Esta/e ${Object.keys(data)[0]} no existe`,
           status: HttpStatus.NOT_FOUND,
           error: false,
-          game
-        }
+        } as ReturnError
       }
 
       return game
@@ -40,22 +41,20 @@ export class GameService {
         error: true
       }
     }
-
   }
 
-  async getGameById(id: number): Promise<Games[] | ReturnError> {
-    const game = await this.findOneBy({ id })
+  async getGameById(id: number): Promise<Games | ReturnError> {
+    const game = await this.GamesRepository.findOne({ where: { id } })
     return game
-
   }
 
   async getGameByConsole(console: string): Promise<Games[] | ReturnError> {
-    const game = await this.findOneBy({ consoleSmallName: console })
+    const game = await this.findBy({ consoleSmallName: console })
     return game
   }
 
   async getGameByGeneration(generation: number): Promise<Games[] | ReturnError> {
-    const game = await this.findOneBy({ generation })
+    const game = await this.findBy({ generation })
     return game
   }
 

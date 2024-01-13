@@ -3,7 +3,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { GameModule } from "./game/game.module";
 import { Games } from "./entity/Games.entity";
 
-const opts: TypeOrmModuleOptions = {
+const typeOrmOpts: TypeOrmModuleOptions = {
 	type: "sqlite",
 	database: "./games.db",
 	entities: [Games],
@@ -11,6 +11,6 @@ const opts: TypeOrmModuleOptions = {
 };
 
 @Module({
-	imports: [TypeOrmModule.forRoot(opts), GameModule],
+	imports: [TypeOrmModule.forRoot(typeOrmOpts), GameModule],
 })
-export class AppModule { }
+export class AppModule {}

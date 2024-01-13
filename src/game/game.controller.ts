@@ -1,11 +1,14 @@
-import { Controller, Get, Param, Query } from "@nestjs/common";
-import { GameService, ReturnError } from "./game.service";
+import { Controller, Get, HttpStatus, Param, Query, Res, UseGuards } from "@nestjs/common";
+import { GameService } from "./game.service";
 import { FindOptionsOrderValue } from "typeorm";
 
+import { ThrottlerGuard } from '@nestjs/throttler';
+import { Response } from "express";
 @Controller("games")
 export class GameController {
   constructor(private readonly appService: GameService) { }
   // Obtener todos loe juegos
+  @UseGuards(ThrottlerGuard)
   @Get("") // Ejemplo: games/
   async getAllGames(
     @Query() q: {
@@ -31,25 +34,41 @@ export class GameController {
   }
 
   // Obtener los juegos mediante su id
+  @UseGuards(ThrottlerGuard)
   @Get("id/:id") // Ejemplo: games/id/1
   async getGameById(
-    @Param() param: { id: string }
+    @Param() param: { id: string },
+    @Res() res: Response
+
   ) {
-    const idToNumber = parseInt(param.id)
-    return await this.appService.getGameById(idToNumber)
+    const id = parseInt(param.id)
+    const game = await this.appService.getGameById(id)
+
+    if ('status' in game) {
+
+      if (game.status !== HttpStatus.OK) {
+        res.status(game.status).json(game)
+        return
+      }
+    }
+
+    res.json(game)
+
   }
 
   // Obtener los juegos mediante su consola
+  @UseGuards(ThrottlerGuard)
   @Get("console/:consoleVideoGame") // Ejemplo: games/console/ps1
   async getGameByConsole(
-    @Param() param: { consoleVideoGame: string }
+    @Param() param: { consoleVideoGame: string },
   ) {
     const { consoleVideoGame } = param
     return await this.appService.getGameByConsole(consoleVideoGame)
   }
 
   // Obtener los juegos mediante su generación
-  @Get("genration/:generation") // Ejemplo -> games/generation/6
+  @UseGuards(ThrottlerGuard)
+  @Get("generation/:generation") // Ejemplo -> games/generation/6
   async getGameByGeneration(
     @Param() param: { generation: string }
   ) {
