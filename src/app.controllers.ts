@@ -61,6 +61,7 @@ export class AppController {
     return await this.appService.getAllGenerations()
   }
 
+
   /*
    *  Obtener los juegos mediante su id
    * /id/1
