@@ -33,6 +33,16 @@ export class GameController {
     });
   }
 
+  @Get("consoles")
+  async getAllConsoles() {
+    return await this.appService.getAllConsoles()
+  }
+
+  @Get("generations")
+  async getAllGenerations() {
+    return await this.appService.getAllGenerations()
+  }
+
   // Obtener los juegos mediante su id
   @UseGuards(ThrottlerGuard)
   @Get("id/:id") // Ejemplo: games/id/1

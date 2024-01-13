@@ -107,4 +107,41 @@ export class GameService {
 
     return await this.GamesRepository.find(opts)
   }
+
+
+  async getAllConsoles() {
+    try {
+
+      const generations = await this.GamesRepository
+        .createQueryBuilder()
+        .select("console_small_name AS consoleSmallName, console_public_name AS consolePublicName")
+        .groupBy("console_small_name, console_public_name")
+        .execute();
+
+      return generations
+    } catch (error) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR
+      }
+    }
+
+  }
+
+  async getAllGenerations() {
+    try {
+      const getConsoles = await this.GamesRepository
+        .createQueryBuilder()
+        .select("generation")
+        .groupBy("generation")
+        .execute();
+
+      return getConsoles
+    } catch (error) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR
+      }
+    }
+
+  }
+
 }
