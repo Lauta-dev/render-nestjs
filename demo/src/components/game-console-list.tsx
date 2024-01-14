@@ -13,12 +13,12 @@ function GameConsoleInfo() {
 		selected === "console"
 			? `http://localhost:3000/${selected}/${i}`
 			: selected === "generation"
-			  ? `http://localhost:3000/${selected}/${i}`
-			  : null;
+				? `http://localhost:3000/${selected}/${i}`
+				: null;
 
 	if (!fetchUrl) {
 		useLocation()[1](window.location.origin);
-		return;
+		return <div></div>;
 	}
 
 	useEffect(() => {
