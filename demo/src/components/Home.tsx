@@ -1,11 +1,13 @@
-import { useEffect, useState } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 import ViewGames from "./View-games";
 import { Game } from "@/interface/Game";
 import { paths } from "@/paths";
+import { CharacterContext } from "@/context/ChangeHome";
 
 const Home = () => {
 	const [games, setGames] = useState<Game[]>();
 	const [page, setPage] = useState(10);
+	const a = useContext(CharacterContext);
 
 	useEffect(() => {
 		async function getAllGames() {
@@ -25,9 +27,12 @@ const Home = () => {
 		setPage(page + 10);
 	}
 
+	const v = a.a ? a.a : games;
+	console.log(a.a);
+
 	return (
 		<section className={"flex flex-col items-center gap-5"}>
-			<ViewGames games={games} />
+			<ViewGames games={v} />
 
 			<button
 				type="button"

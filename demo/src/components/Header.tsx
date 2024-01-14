@@ -1,6 +1,8 @@
-import { useEffect, useState } from "preact/hooks";
-import { Link } from "wouter-preact";
+import { useContext, useEffect, useState } from "preact/hooks";
+import { Link, useLocation } from "wouter-preact";
 import "@/css/header.css";
+import { paths } from "@/paths";
+import { CharacterContext } from "@/context/ChangeHome";
 
 export interface ConsoleName {
 	consoleSmallName: string;
@@ -10,7 +12,6 @@ export interface ConsoleName {
 export interface GenerationGames {
 	generation: number;
 }
-/*
 function Form({
 	consoleSmallName,
 	generationGames,
@@ -24,6 +25,10 @@ function Form({
 
 	// Esta función se ejecuta cada vez que algunos de los dos select cambie.
 	const handleValueChange = (value: string) => {
+		if (value === "elegir") {
+			return;
+		}
+
 		const selected = type?.toLowerCase();
 		const url = `/item/${selected}/${value}`;
 		setLocation(url); // Actualiza la URL
@@ -31,43 +36,34 @@ function Form({
 	};
 
 	return (
-		<Select onValueChange={handleValueChange}>
-			<SelectTrigger className="h-[25px] w-[150px]">
-				<SelectValue placeholder={type} />
-			</SelectTrigger>
-			<SelectContent>
+		<>
+			<select value={"asd"} onChange={(v) => handleValueChange(v.target.value)}>
 				{consoleSmallName?.map((data) => (
-					<SelectItem
-						key={data.consolePublicName}
-						value={data.consoleSmallName}
-					>
+					<option key={data.consolePublicName} value={data.consoleSmallName}>
 						{data.consolePublicName}
-					</SelectItem>
+					</option>
 				))}
+
 				{generationGames?.map((data) => (
-					<SelectItem key={data.generation} value={data.generation}>
+					<option key={data.generation} value={data.generation}>
 						{data.generation}
-					</SelectItem>
+					</option>
 				))}
-			</SelectContent>
-		</Select>
+			</select>
+		</>
 	);
-}*/
+}
 
 function Header() {
 	const [consoleSmallName, setConsoleSmallName] = useState<ConsoleName[]>();
 	const [generation, setGeneration] = useState<GenerationGames[]>();
-
-	console.log({
-		consoleSmallName,
-		generation,
-	});
+	const a = useContext(CharacterContext);
 
 	useEffect(() => {
 		async function g() {
 			const urls = {
-				g: "http://localhost:3000/generations",
-				c: "http://localhost:3000/consoles",
+				g: paths.generations,
+				c: paths.consoles,
 			};
 
 			try {
@@ -114,8 +110,12 @@ function Header() {
 								Ir a la página principal
 							</Link>
 						</li>
-						<li>sad</li>
-						<li>asd</li>
+						<li>
+							<Form type="Console" consoleSmallName={consoleSmallName} />
+						</li>
+						<li>
+							<Form type="Generation" generationGames={generation} />
+						</li>
 					</ul>
 				</nav>
 			</section>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 import { useLocation, useParams } from "wouter-preact";
 
 import ViewGames from "./View-games";
+import { paths } from "@/paths";
 function GameConsoleInfo() {
 	const [games, setGames] = useState();
 
@@ -11,10 +12,10 @@ function GameConsoleInfo() {
 	const { selected, i } = useParams();
 	const fetchUrl =
 		selected === "console"
-			? `http://localhost:3000/${selected}/${i}`
+			? paths.getConsoleOrGeneration(selected, i)
 			: selected === "generation"
-				? `http://localhost:3000/${selected}/${i}`
-				: null;
+			  ? paths.getConsoleOrGeneration(selected, i)
+			  : null;
 
 	if (!fetchUrl) {
 		useLocation()[1](window.location.origin);

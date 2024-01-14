@@ -2,6 +2,7 @@ import { Game } from "@/interface/Game";
 import { useEffect, useState } from "preact/hooks";
 import { Link, useParams } from "wouter-preact";
 import "@/css/view-game.css";
+import { paths } from "@/paths";
 
 function GameInfo() {
 	const id = Number(useParams().id);
@@ -12,7 +13,7 @@ function GameInfo() {
 	useEffect(() => {
 		async function getGameById() {
 			try {
-				const f = await fetch(`http://localhost:3000/id/${id}`);
+				const f = await fetch(paths.getGameById(id));
 
 				// Comprobar si el status code es 200
 				if (!f.ok) {
