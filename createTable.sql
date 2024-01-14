@@ -8,5 +8,6 @@ CREATE TABLE games (
     generation INTEGER,
     release_year INTEGER,
     precio REAL,
-    cover TEXT
+    cover_jpg TEXT,
+    cover_webp TEXT
 );
