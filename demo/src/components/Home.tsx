@@ -1,16 +1,16 @@
 import { useEffect, useState } from "preact/hooks";
 import ViewGames from "./View-games";
-import { Game } from "@/interface/Game";
+import { ViewAllGames } from "@/interface/Game";
 import { paths } from "@/paths";
 
 const Home = () => {
-	const [games, setGames] = useState<Game[]>();
+	const [games, setGames] = useState<ViewAllGames[]>();
 	const [page, setPage] = useState(10);
 
 	useEffect(() => {
 		async function getAllGames() {
 			const f = await fetch(paths.getGamesWithPagination({}));
-			const json: Game[] = await f.json();
+			const json = await f.json();
 
 			setGames(json);
 		}
@@ -20,7 +20,7 @@ const Home = () => {
 
 	async function handleClick() {
 		const f = await fetch(paths.getGamesWithPagination({ page }));
-		const json: Game[] = await f.json();
+		const json = await f.json();
 		setGames((prev) => prev?.concat(json));
 		setPage(page + 10);
 	}
