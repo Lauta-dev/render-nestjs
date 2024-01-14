@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { Link, useLocation } from "wouter-preact";
 import "@/css/header.css";
 import { paths } from "@/paths";
-import { CharacterContext } from "@/context/ChangeHome";
 
 export interface ConsoleName {
 	consoleSmallName: string;
@@ -37,7 +36,12 @@ function Form({
 
 	return (
 		<>
-			<select value={"asd"} onChange={(v) => handleValueChange(v.target.value)}>
+			<select
+				value={"asd"}
+				onChange={(v) => {
+					handleValueChange((v.target as HTMLSelectElement).value);
+				}}
+			>
 				{consoleSmallName?.map((data) => (
 					<option key={data.consolePublicName} value={data.consoleSmallName}>
 						{data.consolePublicName}
@@ -57,7 +61,6 @@ function Form({
 function Header() {
 	const [consoleSmallName, setConsoleSmallName] = useState<ConsoleName[]>();
 	const [generation, setGeneration] = useState<GenerationGames[]>();
-	const a = useContext(CharacterContext);
 
 	useEffect(() => {
 		async function g() {
@@ -78,7 +81,7 @@ function Header() {
 
 				setConsoleSmallName(consolesToJson);
 				setGeneration(generationToJson);
-			} catch (error) {}
+			} catch (error) { }
 		}
 
 		const getConsolesFromLocalStorage = localStorage.getItem("consoles");
