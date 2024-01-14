@@ -1,13 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { Link, useLocation } from "wouter-preact";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
-
+import { Link } from "wouter-preact";
 import "@/css/header.css";
 
 export interface ConsoleName {
@@ -18,7 +10,7 @@ export interface ConsoleName {
 export interface GenerationGames {
 	generation: number;
 }
-
+/*
 function Form({
 	consoleSmallName,
 	generationGames,
@@ -60,11 +52,16 @@ function Form({
 			</SelectContent>
 		</Select>
 	);
-}
+}*/
 
 function Header() {
 	const [consoleSmallName, setConsoleSmallName] = useState<ConsoleName[]>();
 	const [generation, setGeneration] = useState<GenerationGames[]>();
+
+	console.log({
+		consoleSmallName,
+		generation,
+	});
 
 	useEffect(() => {
 		async function g() {
@@ -117,12 +114,8 @@ function Header() {
 								Ir a la página principal
 							</Link>
 						</li>
-						<li>
-							<Form type="Console" consoleSmallName={consoleSmallName} />
-						</li>
-						<li>
-							<Form type="Generation" generationGames={generation} />
-						</li>
+						<li>sad</li>
+						<li>asd</li>
 					</ul>
 				</nav>
 			</section>
@@ -136,7 +129,7 @@ function Header() {
 							p-3
 							hover:bg-gray-100
 						`}
-							href="#"
+							href="w"
 						>
 							repositorio de la demo
 						</a>
@@ -149,7 +142,7 @@ function Header() {
 							bg-black
 							text-white
 						`}
-							href="#"
+							href="W"
 						>
 							API
 						</a>
