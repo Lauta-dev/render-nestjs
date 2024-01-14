@@ -1,7 +1,8 @@
 import { Link } from "wouter-preact";
-import { Game } from "@/interface/Game";
+import { ViewAllGames } from "@/interface/Game";
 
-function ViewGames({ games }: { games: Game[] | undefined }) {
+function ViewGames({ games }: { games: ViewAllGames[] | undefined }) {
+	console.log(games);
 	return (
 		<section className={"grid grid-cols-3 gap-5"}>
 			{games &&
@@ -9,13 +10,13 @@ function ViewGames({ games }: { games: Game[] | undefined }) {
 					<div key={data.title} className={"flex flex-col justify-between"}>
 						<img
 							className={"rounded-xl object-fill"}
-							src={data.cover}
+							src={data.covers.webp}
 							alt={data.title}
 						/>
 
 						<div>
 							<p className={"text-green-700"}>
-								Precio: <b>{data.precio}</b>
+								Precio: <b>{data.price}</b>
 							</p>
 
 							<div
@@ -36,10 +37,10 @@ function ViewGames({ games }: { games: Game[] | undefined }) {
 
 								<Link
 									className={"text-gray-600 hover:text-black transition-all"}
-									href={`/item/console/${data.consoleSmallName}`}
+									href={`/item/console/${data.consoleName.short}`}
 									target={"_blank"}
 								>
-									{data.consolePublicName}
+									{data.consoleName.public}
 								</Link>
 							</div>
 						</div>

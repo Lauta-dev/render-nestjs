@@ -44,41 +44,43 @@ function GameInfo() {
 		<>
 			{notFound && "No hay nada"}
 			{internalServerError && "Error de parte del servidor"}
-			<div className={"info_game_container"}>
-				<section className={"img_constainer"}>
-					<img
-						className={"img_cover_game_info"}
-						src={game?.cover}
-						alt={`Poster from ${game?.title}`}
-					/>
-				</section>
-				<section className={"more_info_container"}>
-					<h2 className={"game_info_title"}>{game?.title}</h2>
-					<b className={"game_info_price"}>{game?.precio} $</b>
-					<p className={"game_description"}>{game?.descripcion}</p>
+			{!notFound && !internalServerError && game?.id && (
+				<div className={"info_game_container"}>
+					<section className={"img_constainer"}>
+						<img
+							className={"img_cover_game_info"}
+							src={game?.coverJpg}
+							alt={`Poster from ${game?.title}`}
+						/>
+					</section>
+					<section className={"more_info_container"}>
+						<h2 className={"game_info_title"}>{game?.title}</h2>
+						<b className={"game_info_price"}>{game?.precio} $</b>
+						<p className={"game_description"}>{game?.descripcion}</p>
 
-					<ul>
-						<li>
-							Console:{" "}
-							<Link href={`/item/console/${game?.consoleSmallName}`}>
-								{game?.consolePublicName}
-							</Link>
-						</li>
-						<li>
-							Release: <b>{game?.release_year}</b>
-						</li>
-						<li>
-							Genre: <b>{game?.genre}</b>
-						</li>
-						<li>
-							Generation:{" "}
-							<Link href={`/item/generation/${game?.generation}`}>
-								{game?.generation}
-							</Link>
-						</li>
-					</ul>
-				</section>
-			</div>
+						<ul>
+							<li>
+								Console:{" "}
+								<Link href={`/item/console/${game?.consoleSmallName}`}>
+									{game?.consolePublicName}
+								</Link>
+							</li>
+							<li>
+								Release: <b>{game?.releaseYear}</b>
+							</li>
+							<li>
+								Genre: <b>{game?.genre}</b>
+							</li>
+							<li>
+								Generation:{" "}
+								<Link href={`/item/generation/${game?.generation}`}>
+									{game?.generation}
+								</Link>
+							</li>
+						</ul>
+					</section>
+				</div>
+			)}
 		</>
 	);
 }

@@ -9,7 +9,25 @@ export interface ReturnError {
   error: boolean;
 }
 
-type f = Games[] | ReturnError
+export interface GamesReturn {
+  id: number,
+  title: string,
+  description: string,
+  genre: string,
+  generation: number,
+  price: number,
+
+  covers: {
+    webp: string,
+    jpg: string
+  },
+  consoleName: {
+    short: string,
+    public: string,
+  }
+}
+
+type R = GamesReturn[] | ReturnError
 
 @Injectable()
 export class AppService {
@@ -18,14 +36,35 @@ export class AppService {
     private GamesRepository: Repository<Games>
   ) { }
 
-  private async findBy({ ...data }: FindOptionsWhere<Games>): Promise<f> {
+  private async formatGames(games: Games[]): Promise<GamesReturn[]> {
+    const formatGames = games.map(game => ({
+      id: game.id,
+      title: game.title,
+      description: game.descripcion,
+      genre: game.genre,
+      generation: game.generation,
+      price: game.precio,
+      covers: {
+        webp: game.coverWebp,
+        jpg: game.coverJpg
+      },
+      consoleName: {
+        short: game.consoleSmallName,
+        public: game.consolePublicName,
+      }
+    }))
+
+    return formatGames
+  }
+
+  private async findBy({ ...data }: FindOptionsWhere<Games>): Promise<R> {
     const opts: FindOneOptions<Games> = {
       where: { ...data }
     }
 
     try {
-      const game = await this.GamesRepository.find(opts)
-      if (!game.length) {
+      const games = await this.GamesRepository.find(opts)
+      if (!games.length) {
         return {
           message: `Esta/e ${Object.keys(data)[0]} no existe`,
           status: HttpStatus.NOT_FOUND,
@@ -33,7 +72,9 @@ export class AppService {
         } as ReturnError
       }
 
-      return game
+      const formatGames = await this.formatGames(games)
+
+      return formatGames
     } catch (error) {
       return {
         message: "Internal Server Error",
@@ -43,17 +84,36 @@ export class AppService {
     }
   }
 
-  async getGameById(id: number): Promise<Games | ReturnError> {
+  async getGameById(id: number): Promise<GamesReturn | ReturnError> {
     const game = await this.GamesRepository.findOne({ where: { id } })
-    return game
+    const formatGame = {
+      id: game.id,
+      title: game.title,
+      description: game.descripcion,
+      price: game.precio,
+      generation: game.generation,
+      release: game.releaseYear,
+      genre: game.genre,
+      consoleName: {
+        short: game.consoleSmallName,
+        public: game.consolePublicName
+      },
+      covers: {
+        webp: game.coverWebp,
+        jpg: game.coverJpg
+      },
+
+    }
+
+    return formatGame
   }
 
-  async getGameByConsole(console: string): Promise<Games[] | ReturnError> {
+  async getGameByConsole(console: string): Promise<R> {
     const game = await this.findBy({ consoleSmallName: console })
     return game
   }
 
-  async getGameByGeneration(generation: number): Promise<Games[] | ReturnError> {
+  async getGameByGeneration(generation: number): Promise<R> {
     const game = await this.findBy({ generation })
     return game
   }
@@ -72,7 +132,7 @@ export class AppService {
       year?: FindOptionsOrderValue,
       generation?: FindOptionsOrderValue
     }
-  }): Promise<Games[] | ReturnError> {
+  }): Promise<R> {
     const l = Number.isNaN(limit) ? 10 : limit;
     const checkPage = Number.isNaN(page) ? 0 : page;
 
@@ -105,20 +165,24 @@ export class AppService {
       cache: true
     }
 
-    return await this.GamesRepository.find(opts)
+    const games = await this.GamesRepository.find(opts)
+
+    const formatGames = await this.formatGames(games)
+    return formatGames
+
   }
 
 
   async getAllConsoles() {
     try {
 
-      const generations = await this.GamesRepository
+      const consoles = await this.GamesRepository
         .createQueryBuilder()
         .select("console_small_name AS consoleSmallName, console_public_name AS consolePublicName")
         .groupBy("console_small_name, console_public_name")
         .execute();
 
-      return generations
+      return consoles
     } catch (error) {
       return {
         status: HttpStatus.INTERNAL_SERVER_ERROR
@@ -129,13 +193,13 @@ export class AppService {
 
   async getAllGenerations() {
     try {
-      const getConsoles = await this.GamesRepository
+      const generation = await this.GamesRepository
         .createQueryBuilder()
         .select("generation")
         .groupBy("generation")
         .execute();
 
-      return getConsoles
+      return generation
     } catch (error) {
       return {
         status: HttpStatus.INTERNAL_SERVER_ERROR

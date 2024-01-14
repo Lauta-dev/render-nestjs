@@ -25,7 +25,7 @@ const typeOrmOpts: TypeOrmModuleOptions = {
 			{
 				name: "Per-second",
 				ttl: 10000,
-				limit: 3,
+				limit: 8,
 			},
 		]),
 	],

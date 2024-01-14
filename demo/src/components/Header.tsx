@@ -2,6 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 import { Link, useLocation } from "wouter-preact";
 import "@/css/header.css";
 import { paths } from "@/paths";
+import { links } from "@/metadata";
 
 export interface ConsoleName {
 	consoleSmallName: string;
@@ -81,7 +82,7 @@ function Header() {
 
 				setConsoleSmallName(consolesToJson);
 				setGeneration(generationToJson);
-			} catch (error) { }
+			} catch (error) {}
 		}
 
 		const getConsolesFromLocalStorage = localStorage.getItem("consoles");
@@ -132,7 +133,7 @@ function Header() {
 							p-3
 							hover:bg-gray-100
 						`}
-							href="w"
+							href={links.ghDemo}
 						>
 							repositorio de la demo
 						</a>
@@ -145,9 +146,22 @@ function Header() {
 							bg-black
 							text-white
 						`}
-							href="W"
+							href={links.api}
 						>
 							API
+						</a>
+					</li>
+					<li>
+						<a
+							className={`
+							rounded-md
+							p-3
+							bg-black
+							text-white
+						`}
+							href={links.ghPersonal}
+						>
+							Mi GitHub
 						</a>
 					</li>
 				</ul>
