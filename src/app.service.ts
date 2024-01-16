@@ -1,33 +1,21 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Games } from 'src/entity/Games.entity';
-import { FindManyOptions, FindOneOptions, FindOptionsOrder, FindOptionsOrderValue, FindOptionsWhere, Repository } from 'typeorm';
+import {
+  FindManyOptions,
+  FindOneOptions,
+  FindOptionsOrder,
+  FindOptionsOrderValue,
+  FindOptionsWhere,
+  Repository
+} from 'typeorm';
+import { VideoGameDetails } from './interface/VideoGameDetails.interface';
+import { ErrorInfo } from './interface/ErrorInfo.interface';
+import { formatGame } from './utils/formatGame';
+import { Generations } from './interface/Generations.interface';
+import { Consoles } from './interface/Consoles.interface';
 
-export interface ReturnError {
-  message: string;
-  status: number;
-  error: boolean;
-}
-
-export interface GamesReturn {
-  id: number,
-  title: string,
-  description: string,
-  genre: string,
-  generation: number,
-  price: number,
-
-  covers: {
-    webp: string,
-    jpg: string
-  },
-  consoleName: {
-    short: string,
-    public: string,
-  }
-}
-
-type R = GamesReturn[] | ReturnError
+type GamesOrErrorResult = VideoGameDetails[] | ErrorInfo
 
 @Injectable()
 export class AppService {
@@ -36,28 +24,12 @@ export class AppService {
     private GamesRepository: Repository<Games>
   ) { }
 
-  private async formatGames(games: Games[]): Promise<GamesReturn[]> {
-    const formatGames = games.map(game => ({
-      id: game.id,
-      title: game.title,
-      description: game.descripcion,
-      genre: game.genre,
-      generation: game.generation,
-      price: game.precio,
-      covers: {
-        webp: game.coverWebp,
-        jpg: game.coverJpg
-      },
-      consoleName: {
-        short: game.consoleSmallName,
-        public: game.consolePublicName,
-      }
-    }))
-
+  private async formatGames(games: Games[]): Promise<VideoGameDetails[]> {
+    const formatGames = games.map(game => formatGame(game))
     return formatGames
   }
 
-  private async findBy({ ...data }: FindOptionsWhere<Games>): Promise<R> {
+  private async findBy({ ...data }: FindOptionsWhere<Games>): Promise<GamesOrErrorResult> {
     const opts: FindOneOptions<Games> = {
       where: { ...data }
     }
@@ -69,7 +41,7 @@ export class AppService {
           message: `Esta/e ${Object.keys(data)[0]} no existe`,
           status: HttpStatus.NOT_FOUND,
           error: false,
-        } as ReturnError
+        }
       }
 
       const formatGames = await this.formatGames(games)
@@ -84,36 +56,17 @@ export class AppService {
     }
   }
 
-  async getGameById(id: number): Promise<GamesReturn | ReturnError> {
+  async getGameById(id: number): Promise<VideoGameDetails | ErrorInfo> {
     const game = await this.GamesRepository.findOne({ where: { id } })
-    const formatGame = {
-      id: game.id,
-      title: game.title,
-      description: game.descripcion,
-      price: game.precio,
-      generation: game.generation,
-      release: game.releaseYear,
-      genre: game.genre,
-      consoleName: {
-        short: game.consoleSmallName,
-        public: game.consolePublicName
-      },
-      covers: {
-        webp: game.coverWebp,
-        jpg: game.coverJpg
-      },
-
-    }
-
-    return formatGame
+    return formatGame(game)
   }
 
-  async getGameByConsole(console: string): Promise<R> {
+  async getGameByConsole(console: string): Promise<GamesOrErrorResult> {
     const game = await this.findBy({ consoleSmallName: console })
     return game
   }
 
-  async getGameByGeneration(generation: number): Promise<R> {
+  async getGameByGeneration(generation: number): Promise<GamesOrErrorResult> {
     const game = await this.findBy({ generation })
     return game
   }
@@ -132,7 +85,7 @@ export class AppService {
       year?: FindOptionsOrderValue,
       generation?: FindOptionsOrderValue
     }
-  }): Promise<R> {
+  }): Promise<GamesOrErrorResult> {
     const l = Number.isNaN(limit) ? 10 : limit;
     const checkPage = Number.isNaN(page) ? 0 : page;
 
@@ -140,24 +93,6 @@ export class AppService {
       ...filters
     }
 
-
-    /* TODO: Agregar una forma de validar diferentes campos
-    if (l) {
-      return {
-        error: true,
-        status: HttpStatus.BAD_REQUEST,
-        message: "No se puede completar la respuesta por que el 'limit' no esta definido correctamente"
-      }
-    }
-
-    if (checkPage) {
-      return {
-        error: true,
-        status: HttpStatus.BAD_REQUEST,
-        message: "No se puede completar la respuesta por que el 'page' no esta definido correctamente"
-      }
-    }
-*/
     const opts: FindManyOptions<Games> = {
       take: l, // limit
       skip: checkPage,
@@ -173,39 +108,55 @@ export class AppService {
   }
 
 
-  async getAllConsoles() {
+  async getAllConsoles(): Promise<Consoles[] | ErrorInfo> {
     try {
-
-      const consoles = await this.GamesRepository
+      const consoles: Consoles[] = await this.GamesRepository
         .createQueryBuilder()
-        .select("console_small_name AS consoleSmallName, console_public_name AS consolePublicName")
+        .select("console_small_name AS short, console_public_name AS public")
         .groupBy("console_small_name, console_public_name")
         .execute();
+
+      if (!consoles.length) {
+        return {
+          status: HttpStatus.NO_CONTENT,
+          message: "Las consolas no existen",
+          error: false
+        }
+      }
 
       return consoles
     } catch (error) {
       return {
-        status: HttpStatus.INTERNAL_SERVER_ERROR
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: "INTERNAL SERVER ERROR",
+        error: true
       }
     }
-
   }
 
-  async getAllGenerations() {
+  async getAllGenerations(): Promise<Generations[] | ErrorInfo> {
     try {
-      const generation = await this.GamesRepository
+      const generation: Generations[] = await this.GamesRepository
         .createQueryBuilder()
         .select("generation")
-        .groupBy("generation")
+        .groupBy("generation") // Agrupar todas las generaciónes para evitar que se repitan
         .execute();
+
+      if (!generation.length) {
+        return {
+          message: "No existes las generaciones",
+          status: HttpStatus.NO_CONTENT,
+          error: false
+        }
+      }
 
       return generation
     } catch (error) {
       return {
-        status: HttpStatus.INTERNAL_SERVER_ERROR
+        message: "Error interno del servidor",
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error: true
       }
     }
-
   }
-
 }

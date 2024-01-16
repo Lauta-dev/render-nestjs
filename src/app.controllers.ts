@@ -113,9 +113,11 @@ export class AppController {
   @UseGuards(ThrottlerGuard)
   @Get("generation/:generation") // Ejemplo -> games/generation/6
   async getGameByGeneration(
-    @Param() param: { generation: string }
+    @Param() param: { generation: string },
+    @Res() res: Response
   ) {
-    const generationToNumber = parseInt(param.generation)
-    return await this.appService.getGameByGeneration(generationToNumber)
+    const generation = Number(param.generation)
+
+    res.json(await this.appService.getGameByGeneration(generation))
   }
 }

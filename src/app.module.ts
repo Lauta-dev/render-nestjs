@@ -1,9 +1,15 @@
-import { Module } from "@nestjs/common";
+import {
+	MiddlewareConsumer,
+	Module,
+	NestModule,
+	RequestMethod,
+} from "@nestjs/common";
 import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { Games } from "./entity/Games.entity";
 import { AppController } from "./app.controllers";
 import { AppService } from "./app.service";
 import { ThrottlerModule } from "@nestjs/throttler";
+import { GenerationValidationMiddleware } from "./middleware/generation-validation/generation-validation.middleware";
 
 const typeOrmOpts: TypeOrmModuleOptions = {
 	type: "sqlite",
@@ -33,4 +39,11 @@ const typeOrmOpts: TypeOrmModuleOptions = {
 	controllers: [AppController],
 	providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+	configure(consumer: MiddlewareConsumer) {
+		consumer.apply(GenerationValidationMiddleware).forRoutes({
+			path: "generation/:generation",
+			method: RequestMethod.GET,
+		});
+	}
+}

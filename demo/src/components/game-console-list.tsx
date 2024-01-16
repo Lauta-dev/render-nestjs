@@ -3,8 +3,11 @@ import { useLocation, useParams } from "wouter-preact";
 
 import ViewGames from "./View-games";
 import { paths } from "@/paths";
+import Loading from "./Loading";
+import { meta } from "@/meta";
 function GameConsoleInfo() {
 	const [games, setGames] = useState();
+	const [loading, setLoading] = useState(false);
 
 	// consola, generation
 	// Selected: puede recibir "console" o "generation"
@@ -34,6 +37,7 @@ function GameConsoleInfo() {
 
 				const json = await f.json();
 				setGames(json);
+				setLoading(true);
 			} catch (error) {
 				console.log(error);
 			}
@@ -42,9 +46,14 @@ function GameConsoleInfo() {
 		getGame();
 	}, []);
 
+	meta({
+		title: `${selected}: ${i?.toUpperCase()}`,
+	});
+
 	return (
 		<>
-			<ViewGames games={games} />
+			{!loading && <Loading />}
+			{loading && <ViewGames games={games} />}
 		</>
 	);
 }
