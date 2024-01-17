@@ -1,6 +1,6 @@
 type metaType = {
-	title: string;
-	description: string;
+	title?: string;
+	description?: string;
 };
 
 export function meta({ title = "null", description = "null" }: metaType) {

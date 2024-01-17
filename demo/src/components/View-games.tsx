@@ -4,7 +4,7 @@ import { ViewAllGames } from "@/interface/Game";
 function ViewGames({ games }: { games: ViewAllGames[] | undefined }) {
 	return (
 		<section className={"grid grid-cols-3 gap-5"}>
-			{games.map((data) => (
+			{games?.map((data) => (
 				<div key={data.title} className={"flex flex-col justify-between"}>
 					<img
 						className={"rounded-xl object-fill"}
