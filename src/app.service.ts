@@ -57,8 +57,26 @@ export class AppService {
   }
 
   async getGameById(id: number): Promise<VideoGameDetails | ErrorInfo> {
-    const game = await this.GamesRepository.findOne({ where: { id } })
-    return formatGame(game)
+    try {
+      const game = await this.GamesRepository.findOneBy({ id })
+
+      if (!game) {
+        return {
+          status: HttpStatus.NO_CONTENT,
+          error: false,
+          message: "Null"
+        }
+      }
+
+      return formatGame(game)
+    } catch (error) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error: true,
+        message: "no se"
+      }
+    }
+
   }
 
   async getGameByConsole(console: string): Promise<GamesOrErrorResult> {

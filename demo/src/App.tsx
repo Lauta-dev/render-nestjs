@@ -7,9 +7,9 @@ import GameConsoleInfo from "./components/game-console-list";
 const App = () => {
 	return (
 		<>
+      
 			<Header />
 			<Route path="/" component={Home} />
-
 			<Route path="/game/:id" component={GameInfo} />
 			<Route path="/item/:selected/:i" component={GameConsoleInfo} />
 		</>

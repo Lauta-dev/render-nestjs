@@ -1,39 +1,18 @@
-import {
-	MiddlewareConsumer,
-	Module,
-	NestModule,
-	RequestMethod,
-} from "@nestjs/common";
-import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import { Games } from "./entity/Games.entity";
 import { AppController } from "./app.controllers";
 import { AppService } from "./app.service";
 import { ThrottlerModule } from "@nestjs/throttler";
-import { GenerationValidationMiddleware } from "./middleware/generation-validation/generation-validation.middleware";
-
-const typeOrmOpts: TypeOrmModuleOptions = {
-	type: "sqlite",
-	database: "./games.db",
-	entities: [Games],
-	synchronize: !!process.env.DEV, // Desactivar en produción
-};
+import { IdAndGenerationValidationMiddleware } from "./middleware/id-and-generation-validation.middleware";
+import { Sqlite } from "./config/Sqlite";
+import { RateLimit } from "./config/Rate-limit";
 
 @Module({
 	imports: [
-		TypeOrmModule.forRoot(typeOrmOpts),
+		TypeOrmModule.forRoot(Sqlite.connection()),
 		TypeOrmModule.forFeature([Games]),
-		ThrottlerModule.forRoot([
-			{
-				name: "Per-minutes",
-				ttl: 60000,
-				limit: 60,
-			},
-			{
-				name: "Per-second",
-				ttl: 10000,
-				limit: 8,
-			},
-		]),
+		ThrottlerModule.forRoot(RateLimit.config()),
 	],
 
 	controllers: [AppController],
@@ -41,9 +20,8 @@ const typeOrmOpts: TypeOrmModuleOptions = {
 })
 export class AppModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {
-		consumer.apply(GenerationValidationMiddleware).forRoutes({
-			path: "generation/:generation",
-			method: RequestMethod.GET,
-		});
+		consumer
+			.apply(IdAndGenerationValidationMiddleware)
+			.forRoutes("/id/:id", "generation/:generation");
 	}
 }

@@ -1,7 +1,6 @@
 const box = document.getElementById("data");
 const cantidad = document.getElementById("cantidad");
-
-async function dom() {
+async function dom(){
 	const f = await fetch("http://localhost:3000/games/all");
 	const data = await f.json();
 	cantidad.innerHTML = `Cantidad de elementos: ${data.length}`;
