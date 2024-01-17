@@ -1,7 +1,15 @@
-import { Controller, Get, Param, Query, Res, UseGuards } from "@nestjs/common";
-import { FindOptionsOrderValue } from "typeorm";
+import {
+	Controller,
+	Get,
+	HttpStatus,
+	Param,
+	Query,
+	Res,
+	UseGuards,
+} from "@nestjs/common";
+import { FindOptionsOrderValue, ObjectIdColumn } from "typeorm";
 import { ThrottlerGuard } from "@nestjs/throttler";
-import { Response } from "express";
+import { Response, query } from "express";
 import { AppService } from "./app.service";
 
 @Controller()
@@ -15,28 +23,53 @@ export class AppController {
 	 *
 	 * */
 	@Get("")
-  async getAllGames(
-    @Query() q: {
+	async getAllGames(
+		@Query() q: {
       limit?: string,
             page?: string,
 
-      sort?: FindOptionsOrderValue,
       id?: FindOptionsOrderValue,
       title?: FindOptionsOrderValue,
       year?: FindOptionsOrderValue,
       genration?: FindOptionsOrderValue
-    }
-  ) {
-    const limit = Number(q.limit)
-    const page = Number(q.page)
-    const sort = q.sort ? q.sort : "ASC"
+    },
+		@Res() res: Response,
+	) {
+		let limit = Number(q.limit);
+		let page = Number(q.page);
+		const sorts = ["asc", "desc"];
+		const querys = { ...q };
 
-    return await this.appService.getAllGames({
-      limit, page, filters: {
+		if (limit && Number.isNaN(limit)) {
+			return res
+				.status(HttpStatus.BAD_REQUEST)
+				.json("El limit tiene que ser un número");
+		}
 
-      }
-    });
-  }
+		if (page && Number.isNaN(page)) {
+			return res
+				.status(HttpStatus.BAD_REQUEST)
+				.json("El page tiene que ser un número");
+		}
+
+		limit = Number.isNaN(limit) ? 10 : limit;
+		page = Number.isNaN(page) ? 0 : page;
+
+		const filters = Object.fromEntries(
+			Object.entries(querys).filter((data) => {
+				const word = data[1].toString().toLowerCase();
+				return sorts.includes(word) ? data[1] : null;
+			}),
+		);
+
+		const games = await this.appService.getAllGames({
+			page,
+			filters,
+			limit,
+		});
+
+		res.json(games);
+	}
 
 	/*
 	 * Recuperar todas las consolas de juegos
