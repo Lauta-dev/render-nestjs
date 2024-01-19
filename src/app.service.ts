@@ -1,43 +1,30 @@
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Games } from "src/entity/Games.entity";
-import {
-	FindManyOptions,
-	FindOneOptions,
-	FindOptionsOrder,
-	FindOptionsOrderValue,
-	FindOptionsWhere,
-	Repository,
-} from "typeorm";
 import { VideoGameDetails } from "./interface/VideoGameDetails.interface";
 import { ErrorInfo } from "./interface/ErrorInfo.interface";
 import { formatGame } from "./utils/formatGame";
 import { Generations } from "./interface/Generations.interface";
-import { Consoles } from "./interface/Consoles.interface";
+import { createClient } from "@libsql/client";
+import { Db } from "./db/Db";
 
 type GamesOrErrorResult = VideoGameDetails[] | ErrorInfo;
 
 @Injectable()
 export class AppService {
-	constructor(
-    @InjectRepository(Games)
-    private GamesRepository: Repository<Games>
-  ) { }
-
-	private async formatGames(games: Games[]): Promise<VideoGameDetails[]> {
+	private async formatGames(games): Promise<VideoGameDetails[]> {
 		const formatGames = games.map((game) => formatGame(game));
 		return formatGames;
 	}
 
-	private async findBy({
-		...data
-	}: FindOptionsWhere<Games>): Promise<GamesOrErrorResult> {
-		const opts: FindOneOptions<Games> = {
-			where: { ...data },
-		};
+	private connect() {
+		return createClient({
+			url: process.env.TURSO_URL,
+			authToken: process.env.TURSO_TOKEN,
+		});
+	}
 
+	private async findBy({ ...data }): Promise<GamesOrErrorResult> {
 		try {
-			const games = await this.GamesRepository.find(opts);
+			const games = [];
 			if (!games.length) {
 				return {
 					message: `Esta/e ${Object.keys(data)[0]} no existe`,
@@ -60,9 +47,9 @@ export class AppService {
 
 	async getGameById(id: number): Promise<VideoGameDetails | ErrorInfo> {
 		try {
-			const game = await this.GamesRepository.findOneBy({ id });
+			const rows = await new Db().getGameById(id);
 
-			if (!game) {
+			if (!rows) {
 				return {
 					status: HttpStatus.NO_CONTENT,
 					error: false,
@@ -70,8 +57,9 @@ export class AppService {
 				};
 			}
 
-			return formatGame(game);
+			return formatGame(rows[0]);
 		} catch (error) {
+			console.log(error);
 			return {
 				status: HttpStatus.INTERNAL_SERVER_ERROR,
 				error: true,
@@ -93,40 +81,24 @@ export class AppService {
 	}
 
 	async getAllGames({
-		limit = 10,
-		page = 0,
-		filters = {},
+		limit,
+		page,
+		filters,
 	}: {
 		limit?: number;
 		page?: number;
 		filters?: {
-			id?: FindOptionsOrderValue;
-			year?: FindOptionsOrderValue;
-			generation?: FindOptionsOrderValue;
+			id?: any;
+			year?: any;
+			generation?: any;
 		};
-	}): Promise<GamesOrErrorResult> {
-		const opts: FindManyOptions<Games> = {
-			take: limit, // limit
-			skip: page,
-			order: { ...filters },
-			cache: true,
-		};
-
-		const games = await this.GamesRepository.find(opts);
-
-		const formatGames = await this.formatGames(games);
-		return formatGames;
+	}) {
+		return await new Db().getAllGames();
 	}
 
-	async getAllConsoles(): Promise<Consoles[] | ErrorInfo> {
+	async getAllConsoles() {
 		try {
-			const consoles: Consoles[] =
-				await this.GamesRepository.createQueryBuilder()
-					.select(
-						"console_small_name AS short, console_public_name AS public",
-					)
-					.groupBy("console_small_name, console_public_name")
-					.execute();
+			const consoles = await new Db().getAllConsoles();
 
 			if (!consoles.length) {
 				return {
@@ -138,6 +110,7 @@ export class AppService {
 
 			return consoles;
 		} catch (error) {
+			console.log(error);
 			return {
 				status: HttpStatus.INTERNAL_SERVER_ERROR,
 				message: "INTERNAL SERVER ERROR",
@@ -146,13 +119,9 @@ export class AppService {
 		}
 	}
 
-	async getAllGenerations(): Promise<Generations[] | ErrorInfo> {
+	async getAllGenerations() {
 		try {
-			const generation: Generations[] =
-				await this.GamesRepository.createQueryBuilder()
-					.select("generation")
-					.groupBy("generation") // Agrupar todas las generaciónes para evitar que se repitan
-					.execute();
+			const generation = await new Db().getAllGeneration();
 
 			if (!generation.length) {
 				return {

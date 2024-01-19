@@ -7,7 +7,6 @@ import {
 	Res,
 	UseGuards,
 } from "@nestjs/common";
-import { FindOptionsOrderValue, ObjectIdColumn } from "typeorm";
 import { ThrottlerGuard } from "@nestjs/throttler";
 import { Response, query } from "express";
 import { AppService } from "./app.service";
@@ -28,10 +27,10 @@ export class AppController {
       limit?: string,
             page?: string,
 
-      id?: FindOptionsOrderValue,
-      title?: FindOptionsOrderValue,
-      year?: FindOptionsOrderValue,
-      genration?: FindOptionsOrderValue
+      id?: number,
+      title?: number,
+      year?: number,
+      genration?:number 
     },
 		@Res() res: Response,
 	) {

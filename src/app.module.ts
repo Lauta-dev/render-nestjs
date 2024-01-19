@@ -1,18 +1,15 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { Games } from "./entity/Games.entity";
 import { AppController } from "./app.controllers";
 import { AppService } from "./app.service";
 import { ThrottlerModule } from "@nestjs/throttler";
 import { IdAndGenerationValidationMiddleware } from "./middleware/id-and-generation-validation.middleware";
-import { Sqlite } from "./config/Sqlite";
 import { RateLimit } from "./config/Rate-limit";
+import { ConfigModule } from "@nestjs/config";
 
 @Module({
 	imports: [
-		TypeOrmModule.forRoot(Sqlite.connection()),
-		TypeOrmModule.forFeature([Games]),
 		ThrottlerModule.forRoot(RateLimit.config()),
+		ConfigModule.forRoot(),
 	],
 
 	controllers: [AppController],
