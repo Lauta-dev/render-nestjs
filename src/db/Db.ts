@@ -47,12 +47,37 @@ export class Db {
 		return await this.sql(sql, { id });
 	}
 
-	async getAllGames() {
+	async getAllGames({ limit, page }: { limit?: number; page?: number }) {
+		const l = limit ? limit : 10;
+		const p = page ? page : 0;
+
 		const sql = `
-      SELECT *
+      SELECT title, precio, cover_webp, console_small_name, console_public_name, id
       FROM games
+      LIMIT :limit
+      OFFSET :page
     `;
 
-		return await this.sql(sql, {});
+		return await this.sql(sql, { limit: l, page: p });
+	}
+
+	async getGameByConsole(console: string) {
+		const sql = `
+    SELECT title, precio, cover_webp, console_small_name, console_public_name, id
+    FROM games
+    WHERE console_small_name = :console
+    `;
+
+		return await this.sql(sql, { console });
+	}
+
+	async getGameByGeneration(g: number) {
+		const sql = `
+    SELECT title, precio, cover_webp, console_small_name, console_public_name, id
+    FROM games
+    WHERE generation = :g
+    `;
+
+		return await this.sql(sql, { g });
 	}
 }

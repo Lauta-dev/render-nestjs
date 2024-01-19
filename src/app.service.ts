@@ -2,8 +2,6 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 import { VideoGameDetails } from "./interface/VideoGameDetails.interface";
 import { ErrorInfo } from "./interface/ErrorInfo.interface";
 import { formatGame } from "./utils/formatGame";
-import { Generations } from "./interface/Generations.interface";
-import { createClient } from "@libsql/client";
 import { Db } from "./db/Db";
 
 type GamesOrErrorResult = VideoGameDetails[] | ErrorInfo;
@@ -13,13 +11,6 @@ export class AppService {
 	private async formatGames(games): Promise<VideoGameDetails[]> {
 		const formatGames = games.map((game) => formatGame(game));
 		return formatGames;
-	}
-
-	private connect() {
-		return createClient({
-			url: process.env.TURSO_URL,
-			authToken: process.env.TURSO_TOKEN,
-		});
 	}
 
 	private async findBy({ ...data }): Promise<GamesOrErrorResult> {
@@ -68,16 +59,16 @@ export class AppService {
 		}
 	}
 
-	async getGameByConsole(console: string): Promise<GamesOrErrorResult> {
-		const game = await this.findBy({ consoleSmallName: console });
-		return game;
+	async getGameByConsole(console: string) {
+		const games = await new Db().getGameByConsole(console);
+		const g = this.formatGames(games);
+		return g;
 	}
 
-	async getGameByGeneration(
-		generation: number,
-	): Promise<GamesOrErrorResult> {
-		const game = await this.findBy({ generation });
-		return game;
+	async getGameByGeneration(generation: number): Promise<GamesOrErrorResult> {
+		const games = await new Db().getGameByGeneration(generation);
+		const g = this.formatGames(games);
+		return g;
 	}
 
 	async getAllGames({
@@ -93,7 +84,9 @@ export class AppService {
 			generation?: any;
 		};
 	}) {
-		return await new Db().getAllGames();
+		const games = this.formatGames(await new Db().getAllGames({ limit, page }));
+
+		return games;
 	}
 
 	async getAllConsoles() {
@@ -122,6 +115,7 @@ export class AppService {
 	async getAllGenerations() {
 		try {
 			const generation = await new Db().getAllGeneration();
+			console.log(generation);
 
 			if (!generation.length) {
 				return {

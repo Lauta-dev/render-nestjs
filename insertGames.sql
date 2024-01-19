@@ -40,114 +40,114 @@ VALUES
 
 -- ps1
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/spyro-the-dragon-playstation.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/spyro-the-dragon-playstation.webp'
     WHERE title = 'Spyro the Dragon' AND console_small_name = 'ps1';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/metal-gear-solid-playstation.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/metal-gear-solid-playstation.webp'
     WHERE title = 'Metal Gear Solid' AND console_small_name = 'ps1';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/tomb-raider-playstation.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/tomb-raider-playstation.webp'
     WHERE title = 'Tomb Raider' AND console_small_name = 'ps1';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/street-fighter-alpha-3-playstation.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/street-fighter-alpha-3-playstation.webp'
     WHERE title = 'Street Fighter Alpha 3' AND console_small_name = 'ps1';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/resident-evil-2-playstation.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/resident-evil-2-playstation.webp'
     WHERE title = 'Resident Evil 2' AND console_small_name = 'ps1';
 
 -- ps2
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/grand-theft-auto-san-andreas-playstation-2.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/grand-theft-auto-san-andreas-playstation-2.webp'
     WHERE title = 'Grand Theft Auto: San Andreas' AND console_small_name = 'ps2';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/god-of-war-ii-playstation-2.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/god-of-war-ii-playstation-2.webp'
     WHERE title = 'God Of War II' AND console_small_name = 'ps2';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/shadow-of-the-colossus-playstation-2.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/shadow-of-the-colossus-playstation-2.webp'
     WHERE title = 'Shadow of the Colossus' AND console_small_name = 'ps2';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/black-playstation-2.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/black-playstation-2.webp'
     WHERE title = 'Black' AND console_small_name = 'ps2';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/resident-evil-4-playstation-2.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/resident-evil-4-playstation-2.webp'
     WHERE title = 'Resident Evil 4' AND console_small_name = 'ps2';
 
 -- ps3
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/god-of-war-iii-playstation-3.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/god-of-war-iii-playstation-3.webp'
     WHERE title = 'God Of War III' AND console_small_name = 'ps3';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/max-payne-3-playstation-3.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/max-payne-3-playstation-3.webp'
     WHERE title = 'Max Payne 3' AND console_small_name = 'ps3';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/battlefield-4-playstation-3.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/battlefield-4-playstation-3.webp'
     WHERE title = 'Battlefield 4' AND console_small_name = 'ps3';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/dark-souls-playstation-3.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/dark-souls-playstation-3.webp'
     WHERE title = 'Dark Souls' AND console_small_name = 'ps3';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/grand-theft-auto-v-playstation-3.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/grand-theft-auto-v-playstation-3.webp'
     WHERE title = 'Grand Theft Auto V' AND console_small_name = 'ps3';
 
 -- ps4
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/bloodborne-playstation-4.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/bloodborne-playstation-4.webp'
     WHERE title = 'Bloodborne' AND console_small_name = 'ps4';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/red-dead-redemption-ii-playstation-4.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/red-dead-redemption-ii-playstation-4.webp'
     WHERE title = 'Red Dead Redemption II' AND console_small_name = 'ps4';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/doom-eternal-playstation-4.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/doom-eternal-playstation-4.webp'
     WHERE title = 'Doom Eternal' AND console_small_name = 'ps4';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/god-of-war-playstation-4.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/god-of-war-playstation-4.webp'
     WHERE title = 'God Of War (2018)' AND console_small_name = 'ps4';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/sekiro-shadows-die-twice-playstation-4.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/sekiro-shadows-die-twice-playstation-4.webp'
     WHERE title = 'Sekiro' AND console_small_name = 'ps4';
 
 -- xbox
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/halo-combat-evolved-xbox.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/halo-combat-evolved-xbox.webp'
     WHERE title = 'Halo: Combat Evolved' AND console_small_name = 'xbox';
 
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/burnout-3-takedown-xbox.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/burnout-3-takedown-xbox.webp'
     WHERE title = 'Burnout 3: Takedown' AND console_small_name = 'xbox';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/tom-clancys-splinter-cell-pandora-tomorrow-xbox.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/tom-clancys-splinter-cell-pandora-tomorrow-xbox.webp'
     WHERE title = 'Splinter Cell: Pandora Tomorrow' AND console_small_name = 'xbox';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/prince-of-persia-the-sands-of-time-xbox.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/prince-of-persia-the-sands-of-time-xbox.webp'
     WHERE title = 'Prince of Persia: The Sands of Time' AND console_small_name = 'xbox';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/the-elder-scrolls-iii-morrowind-xbox.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/the-elder-scrolls-iii-morrowind-xbox.webp'
     WHERE title = 'The Elder Scrolls III: Morrowind' AND console_small_name = 'xbox';
 
 -- xbox 360
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/bioshock-windows.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/bioshock-windows.webp'
     WHERE title = 'BioShock' AND console_small_name = 'xbox_360';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/fallout-3-xbox-360.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/fallout-3-xbox-360.webp'
     WHERE title = 'Fallout 3' AND console_small_name = 'xbox_360';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/borderlands-2-xbox-360.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/borderlands-2-xbox-360.webp'
     WHERE title = 'Borderlands 2' AND console_small_name = 'xbox_360';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/left-4-dead-2-xbox-360.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/left-4-dead-2-xbox-360.webp'
     WHERE title = 'Left 4 Dead 2' AND console_small_name = 'xbox_360';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/dirt-2-xbox-360.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/dirt-2-xbox-360.webp'
     WHERE title = 'Dirt 2' AND console_small_name = 'xbox_360';
 
 -- xbox one
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/cuphead-windows-apps.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/cuphead-windows-apps.webp'
     WHERE title = 'Cuphead' AND console_small_name = 'xbox_one';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/devil-may-cry-5-xbox-one.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/devil-may-cry-5-xbox-one.webp'
     WHERE title = 'Devil May Cry 5' AND console_small_name = 'xbox_one';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/resident-evil-2-xbox-one.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/resident-evil-2-xbox-one.webp'
     WHERE title = 'Resident Evil 2 Remake' AND console_small_name = 'xbox_one';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/halo-the-master-chief-collection-xbox-one.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/halo-the-master-chief-collection-xbox-one.webp'
     WHERE title = 'Halo: Master Chief Collection' AND console_small_name = 'xbox_one';
 
-UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/render-nestjs/main/demo/public/wolfenstein-ii-the-new-colossus-xbox-one.webp'
+UPDATE games SET cover_webp = 'https://raw.githubusercontent.com/Lauta-dev/demo-api/main/demo/public/wolfenstein-ii-the-new-colossus-xbox-one.webp'
     WHERE title = 'Wolfenstein 2: The New Colossus' AND console_small_name = 'xbox_one';
