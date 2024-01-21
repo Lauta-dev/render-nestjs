@@ -16,8 +16,7 @@ Esta base de datos cuenta con **35** registros con su:
 ## Tecnologías Utilizadas
 
 - [NestJS](https://github.com/nestjs/nest): Framework de backend que facilita el desarrollo de aplicaciones escalables y modularizadas en Node.js.
-- [TypeORM](https://github.com/typeorm/typeorm): Mapeo objeto-relacional que simplifica la interacción con bases de datos relacionales utilizando TypeScript.
-- [SQLite](https://www.sqlite.org/index.html): Motor de base de datos ligero que permite el almacenamiento eficiente de datos sin necesidad de un servidor dedicado.
+- [SQLite](https://turso.tech/): Motor de base de datos ligero que permite el almacenamiento eficiente de datos sin necesidad de un servidor dedicado.
 - [Preact](https://github.com/preactjs/preact): Una alternativa a **React** con una API similar.
 - [Hosting Vercel](https://vercel.com): Hosting dónde esta alojada la demo
 - [Hosting Render](https://render.com): Hosting dónde esta alojada la API
