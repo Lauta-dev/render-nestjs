@@ -1,6 +1,6 @@
 # Game API
 
-Este repositorio alberga el código fuente de un proyecto que implementa una API utilizando JavaScript en conjunto con el framework de backend NestJS y la tecnología de mapeo objeto-relacional TypeORM. La aplicación está diseñada para almacenar datos en una base de datos SQLite.
+Este repositorio alberga el código fuente de un proyecto que implementa una API utilizando JavaScript en conjunto con el framework de backend NestJS. La aplicación está diseñada para almacenar datos en una base de datos SQLite.
 
 Esta base de datos cuenta con **35** registros con su:
 
