@@ -4,22 +4,64 @@ Este repositorio alberga el código fuente de un proyecto que implementa una API
 
 Esta base de datos cuenta con **35** registros con su:
 
-- Título
-- Descripción
-- Género
-- Cover/Caratula en **webp** y **jpg**
-- Consola
-- Año de lanzamiento
-- Precio
-- Generación que pertenece el juego
+1. Título
+2. Descripción
+3. Género
+4. Cover/Caratula en **webp** y **jpg**
+5. Consola
+6. Año de lanzamiento
+7. Precio
+8. Generación que pertenece el juego
 
 ## Tecnologías Utilizadas
 
 - [NestJS](https://github.com/nestjs/nest): Framework de backend que facilita el desarrollo de aplicaciones escalables y modularizadas en Node.js.
-- [SQLite](https://turso.tech/): Motor de base de datos ligero que permite el almacenamiento eficiente de datos sin necesidad de un servidor dedicado.
+- [SQLite](https://turso.tech/): Alojamiento de la base de datos SQLite.
 - [Preact](https://github.com/preactjs/preact): Una alternativa a **React** con una API similar.
 - [Hosting Vercel](https://vercel.com): Hosting dónde esta alojada la demo
 - [Hosting Render](https://render.com): Hosting dónde esta alojada la API
+
+
+## Requirementos
+- Instalar [Turso](https://turso.tech/)
+- [NodeJS](https://nodejs.org/en)
+- Tener instalado **NPM** este ya viene con **NodeJS** o [pnpm](https://github.com/pnpm/pnpm)
+
+## Uso de Turso
+0. Se tiene que crear una cuenta con GitHub
+
+1. Autenticarse.
+```bash
+turso auth login
+```
+
+2. Crear una base de datos.
+```bash
+turso db create games
+```
+
+### Obtener URL y Token
+
+1. Token
+```bash
+turso db tokens create games.
+```
+
+2. Url 
+```bash
+turso db show games --url
+```
+
+> Tanto el **token** como la **url** tienen que ir en un archivo **.env**. [Este es el ejemplo](./env.example).
+
+### Insertar los datos
+
+1. Acceder
+```bash
+turso db shell games
+```
+En el repo tiene el [La definición de la base de datos](./createTable.sql) y las [sentencias SQL para añadir las columnas] (./insertGames.sql).
+Solo se tendra que copiar y pegar.
 
 ## Iniciarlo en local
 
@@ -31,13 +73,10 @@ git clone https://github.com/Lauta-dev/render-nestjs.git
 
 2. Instalar dependencias
 
-- En este proyecto lo hice con [pnpm](https://github.com/pnpm/pnpm)
+- En este proyecto lo hice con [pnpm](https://github.com/pnpm/pnpm), pero podes usar **npm**
 
 ```bash
 pnpm install
-
-# o puedes usar npm
-npm install
 ```
 
 3. Levantar API
@@ -52,6 +91,8 @@ pnpm run start:dev
 cd demo
 pnpm run dev
 ```
+
+
 
 ## Rutas de la API
 
