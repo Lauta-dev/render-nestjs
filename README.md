@@ -60,7 +60,7 @@ turso db show games --url
 ```bash
 turso db shell games
 ```
-En el repo tiene el [La definición de la base de datos](./createTable.sql) y las [sentencias SQL para añadir las columnas] (./insertGames.sql).
+En el repo tiene el [La definición de la base de datos](./createTable.sql) y las [sentencias SQL para añadir las columnas](./insertGames.sql).
 Solo se tendra que copiar y pegar.
 
 ## Iniciarlo en local
