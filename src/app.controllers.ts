@@ -8,7 +8,7 @@ import {
 	UseGuards,
 } from "@nestjs/common";
 import { ThrottlerGuard } from "@nestjs/throttler";
-import { Response, query } from "express";
+import { Response } from "express";
 import { AppService } from "./app.service";
 
 @Controller()

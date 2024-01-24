@@ -13,29 +13,6 @@ export class AppService {
 		return formatGames;
 	}
 
-	private async findBy({ ...data }): Promise<GamesOrErrorResult> {
-		try {
-			const games = [];
-			if (!games.length) {
-				return {
-					message: `Esta/e ${Object.keys(data)[0]} no existe`,
-					status: HttpStatus.NOT_FOUND,
-					error: false,
-				};
-			}
-
-			const formatGames = await this.formatGames(games);
-
-			return formatGames;
-		} catch (error) {
-			return {
-				message: "Internal Server Error",
-				status: HttpStatus.INTERNAL_SERVER_ERROR,
-				error: true,
-			};
-		}
-	}
-
 	async getGameById(id: number): Promise<VideoGameDetails | ErrorInfo> {
 		try {
 			const rows = await new Db().getGameById(id);
@@ -65,7 +42,9 @@ export class AppService {
 		return g;
 	}
 
-	async getGameByGeneration(generation: number): Promise<GamesOrErrorResult> {
+	async getGameByGeneration(
+		generation: number,
+	): Promise<GamesOrErrorResult> {
 		const games = await new Db().getGameByGeneration(generation);
 		const g = this.formatGames(games);
 		return g;
@@ -74,7 +53,6 @@ export class AppService {
 	async getAllGames({
 		limit,
 		page,
-		filters,
 	}: {
 		limit?: number;
 		page?: number;
@@ -84,7 +62,9 @@ export class AppService {
 			generation?: any;
 		};
 	}) {
-		const games = this.formatGames(await new Db().getAllGames({ limit, page }));
+		const games = this.formatGames(
+			await new Db().getAllGames({ limit, page }),
+		);
 
 		return games;
 	}

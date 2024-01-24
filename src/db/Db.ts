@@ -1,5 +1,4 @@
 import { createClient } from "@libsql/client";
-import { Consoles } from "src/interface/Consoles.interface";
 
 export class Db {
 	private connect() {
