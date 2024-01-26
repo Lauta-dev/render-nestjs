@@ -7,10 +7,6 @@ export class Db {
 			authToken: process.env.TURSO_TOKEN,
 		});
 
-		const devClient = createClient({
-			url: "file:games.db",
-		});
-
 		return prodClient;
 	}
 
@@ -57,7 +53,7 @@ export class Db {
 		const p = page ? page : 0;
 
 		const sql = `
-      SELECT title, precio, cover_webp, console_small_name, console_public_name, id
+      SELECT *
       FROM games
       LIMIT :limit
       OFFSET :page
