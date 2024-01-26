@@ -11,7 +11,7 @@ export class Db {
 			url: "file:games.db",
 		});
 
-		return process.env.PROD ? prodClient : devClient;
+		return process.env.NODE_ENV === "production" ? prodClient : devClient;
 	}
 
 	async sql(sql: string, args: {}) {
