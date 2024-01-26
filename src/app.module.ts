@@ -19,6 +19,6 @@ export class AppModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {
 		consumer
 			.apply(IdAndGenerationValidationMiddleware)
-			.forRoutes("/id/:id", "generation/:generation");
+			.forRoutes("id/:id", "generation/:generation");
 	}
 }

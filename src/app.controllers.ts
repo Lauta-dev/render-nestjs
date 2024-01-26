@@ -86,9 +86,24 @@ export class AppController {
 	 *
 	 * */
 	@Get("generations")
-	async getAllGenerations() {
-		return await this.appService.getAllGenerations();
-	}
+	async getAllGenerations(
+    @Res() res: Response
+  ) {
+		const generations = await this.appService.getAllGenerations()
+	
+    if ("status" in generations) {
+      const { status} = generations
+
+      if (status === HttpStatus.NO_CONTENT) {
+        return res.status(generations.status).json(generations)
+      }
+
+      return res.status(status).json(generations)
+    }
+
+    res.json(generations)
+
+  }
 
 	/*
 	 *  Obtener los juegos mediante su id
@@ -99,6 +114,17 @@ export class AppController {
 	async getGameById(@Param() param: { id: number }, @Res() res: Response) {
 		const { id } = param;
 		const game = await this.appService.getGameById(id);
+
+		if ("error" in game) {
+			if (game.status === HttpStatus.OK) {
+				return res.status(game.status).json(game);
+			}
+
+			if (game.status === HttpStatus.INTERNAL_SERVER_ERROR) {
+				return res.status(game.status).json(game);
+			}
+		}
+
 		res.json(game);
 	}
 

@@ -3,6 +3,7 @@ import { VideoGameDetails } from "./interface/VideoGameDetails.interface";
 import { ErrorInfo } from "./interface/ErrorInfo.interface";
 import { formatGame } from "./utils/formatGame";
 import { Db } from "./db/Db";
+import { allConsoles } from "./utils/allConsoles";
 
 type GamesOrErrorResult = VideoGameDetails[] | ErrorInfo;
 
@@ -17,21 +18,20 @@ export class AppService {
 		try {
 			const rows = await new Db().getGameById(id);
 
-			if (!rows) {
+			if (!rows.length) {
 				return {
-					status: HttpStatus.NO_CONTENT,
+					status: HttpStatus.OK,
 					error: false,
-					message: "Null",
+					message: "El juego no exite",
 				};
 			}
 
 			return formatGame(rows[0]);
 		} catch (error) {
-			console.log(error);
 			return {
 				status: HttpStatus.INTERNAL_SERVER_ERROR,
 				error: true,
-				message: "no se",
+				message: "INTERNAL SERVER ERROR",
 			};
 		}
 	}
@@ -71,7 +71,9 @@ export class AppService {
 
 	async getAllConsoles() {
 		try {
-			const consoles = await new Db().getAllConsoles();
+			const consoles = process.env.PROD
+				? await new Db().getAllConsoles()
+				: allConsoles;
 
 			if (!consoles.length) {
 				return {
@@ -83,7 +85,6 @@ export class AppService {
 
 			return consoles;
 		} catch (error) {
-			console.log(error);
 			return {
 				status: HttpStatus.INTERNAL_SERVER_ERROR,
 				message: "INTERNAL SERVER ERROR",
@@ -95,7 +96,6 @@ export class AppService {
 	async getAllGenerations() {
 		try {
 			const generation = await new Db().getAllGeneration();
-			console.log(generation);
 
 			if (!generation.length) {
 				return {
