@@ -2,10 +2,16 @@ import { createClient } from "@libsql/client";
 
 export class Db {
 	private connect() {
-		return createClient({
+		const prodClient = createClient({
 			url: process.env.TURSO_URL,
 			authToken: process.env.TURSO_TOKEN,
 		});
+
+		const devClient = createClient({
+			url: "file:games.db",
+		});
+
+		return process.env.PROD ? prodClient : devClient;
 	}
 
 	async sql(sql: string, args: {}) {
