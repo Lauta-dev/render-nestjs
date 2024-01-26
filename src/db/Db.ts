@@ -7,6 +7,10 @@ export class Db {
 			authToken: process.env.TURSO_TOKEN,
 		});
 
+		const devClient = createClient({
+			url: "file:../../games.db",
+		});
+
 		return prodClient;
 	}
 
